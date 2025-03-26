@@ -1,40 +1,87 @@
+import { Tag } from "./types.js";
+
+import {
+  ActionHash,
+  AgentPubKey,
+  AppClient,
+  decodeHashFromBase64,
+  Delete,
+  EntryHash,
+  fakeActionHash,
+  fakeAgentPubKey,
+  fakeDnaHash,
+  fakeEntryHash,
+  Link,
+  NewEntryAction,
+  Record,
+  SignedActionHashed,
+} from "@holochain/client";
 import {
   AgentPubKeyMap,
   decodeEntry,
-  fakeEntry,
   fakeCreateAction,
-  fakeUpdateEntry,
   fakeDeleteEntry,
+  fakeEntry,
   fakeRecord,
+  fakeUpdateEntry,
+  hash,
+  HashType,
+  HoloHashMap,
   pickBy,
   ZomeMock,
-  HoloHashMap,
-  HashType,
-  hash
 } from "@tnesh-stack/utils";
-import {
-  decodeHashFromBase64,
-  NewEntryAction,
-  AgentPubKey,
-  ActionHash,
-  EntryHash,
-  Delete,
-  AppClient,
-  fakeAgentPubKey,
-  fakeDnaHash,
-  Link,
-  fakeActionHash,
-  SignedActionHashed,
-  fakeEntryHash,
-  Record,
-} from "@holochain/client";
-import { TagsClient } from './tags-client.js'
+import { TagsClient } from "./tags-client.js";
 
 export class TagsZomeMock extends ZomeMock implements AppClient {
   constructor(
-    myPubKey?: AgentPubKey
+    myPubKey?: AgentPubKey,
   ) {
     super("tags_test", "tags", "tags_test_app", myPubKey);
   }
-  
+  /** Tag */
+  tags = new HoloHashMap<ActionHash, {
+    deletes: Array<SignedActionHashed<Delete>>;
+    revisions: Array<Record>;
+  }>();
+
+  async create_tag(tag: Tag): Promise<Record> {
+    const entryHash = hash(tag, HashType.ENTRY);
+    const record = await fakeRecord(await fakeCreateAction(entryHash), fakeEntry(tag));
+
+    this.tags.set(record.signed_action.hashed.hash, {
+      deletes: [],
+      revisions: [record],
+    });
+
+    return record;
+  }
+
+  async get_tag(tagHash: ActionHash): Promise<Record | undefined> {
+    const tag = this.tags.get(tagHash);
+    return tag ? tag.revisions[0] : undefined;
+  }
+
+  async get_tags(): Promise<Array<Link>> {
+    const records: Record[] = Array.from(this.tags.values()).map(r => r.revisions[r.revisions.length - 1]);
+    const base = await fakeEntryHash();
+    return Promise.all(records.map(async record => ({
+      base,
+      target: record.signed_action.hashed.hash,
+      author: record.signed_action.hashed.content.author,
+      timestamp: record.signed_action.hashed.content.timestamp,
+      zome_index: 0,
+      link_type: 0,
+      tag: new Uint8Array(),
+      create_link_hash: await fakeActionHash(),
+    })));
+  }
+}
+
+export async function sampleTag(client: TagsClient, partialTag: Partial<Tag> = {}): Promise<Tag> {
+  return {
+    ...{
+      name: "Lorem ipsum 2",
+    },
+    ...partialTag,
+  };
 }
