@@ -1,0 +1,793 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "locales/locales.js",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "sourceLocale",
+          "default": "`en`",
+          "description": "The locale code that templates in this source code are written in."
+        },
+        {
+          "kind": "variable",
+          "name": "targetLocales",
+          "type": {
+            "text": "array"
+          },
+          "default": "[ , ]",
+          "description": "The other locale codes that this application is localized into. Sorted\nlexicographically."
+        },
+        {
+          "kind": "variable",
+          "name": "allLocales",
+          "type": {
+            "text": "array"
+          },
+          "default": "[ `en`, ]",
+          "description": "All valid project locale codes. Sorted lexicographically."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "sourceLocale",
+          "declaration": {
+            "name": "sourceLocale",
+            "module": "locales/locales.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "targetLocales",
+          "declaration": {
+            "name": "targetLocales",
+            "module": "locales/locales.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "allLocales",
+          "declaration": {
+            "name": "allLocales",
+            "module": "locales/locales.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/context.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "tagsStoreContext"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "tagsStoreContext",
+          "declaration": {
+            "name": "tagsStoreContext",
+            "module": "src/context.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "package": "./tags-store.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "package": "./tags-client.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "package": "./context.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "package": "./types.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/mocks.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "TagsZomeMock",
+          "members": [
+            {
+              "kind": "field",
+              "name": "tags",
+              "default": "new HoloHashMap< ActionHash, { deletes: Array<SignedActionHashed<Delete>>; revisions: Array<Record>; } >()",
+              "description": "Tag"
+            },
+            {
+              "kind": "method",
+              "name": "create_tag",
+              "return": {
+                "type": {
+                  "text": "Promise<Record>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "tag",
+                  "type": {
+                    "text": "Tag"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "get_tag",
+              "return": {
+                "type": {
+                  "text": "Promise<Record | undefined>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "tagHash",
+                  "type": {
+                    "text": "ActionHash"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "get_tags",
+              "return": {
+                "type": {
+                  "text": "Promise<Array<Link>>"
+                }
+              }
+            }
+          ],
+          "superclass": {
+            "name": "ZomeMock",
+            "package": "@tnesh-stack/utils"
+          }
+        },
+        {
+          "kind": "function",
+          "name": "sampleTag",
+          "return": {
+            "type": {
+              "text": "Promise<Tag>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "client",
+              "type": {
+                "text": "TagsClient"
+              }
+            },
+            {
+              "name": "partialTag",
+              "default": "{}",
+              "type": {
+                "text": "Partial<Tag>"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TagsZomeMock",
+          "declaration": {
+            "name": "TagsZomeMock",
+            "module": "src/mocks.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "sampleTag",
+          "declaration": {
+            "name": "sampleTag",
+            "module": "src/mocks.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/tags-client.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "TagsClient",
+          "members": [
+            {
+              "kind": "method",
+              "name": "addTag",
+              "parameters": [
+                {
+                  "name": "tag",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "hash",
+                  "type": {
+                    "text": "HoloHash"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "removeTag",
+              "parameters": [
+                {
+                  "name": "tag",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "hash",
+                  "type": {
+                    "text": "HoloHash"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getAllTags",
+              "return": {
+                "type": {
+                  "text": "Promise<Array<Link>>"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "getTagsForTagged",
+              "return": {
+                "type": {
+                  "text": "Promise<Array<Link>>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "hash",
+                  "type": {
+                    "text": "HoloHash"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getTaggedsForTag",
+              "return": {
+                "type": {
+                  "text": "Promise<Array<Link>>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "tag",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "tagPathHash",
+              "return": {
+                "type": {
+                  "text": "Promise<EntryHash>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "tag",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            }
+          ],
+          "superclass": {
+            "name": "ZomeClient",
+            "package": "@tnesh-stack/utils"
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TagsClient",
+          "declaration": {
+            "name": "TagsClient",
+            "module": "src/tags-client.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/tags-store.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "TagsStore",
+          "members": [
+            {
+              "kind": "field",
+              "name": "allTags",
+              "description": "Tags"
+            },
+            {
+              "kind": "field",
+              "name": "tagsForTagged",
+              "default": "new MemoHoloHashMap(hash => mapCompleted( liveLinksSignal( this.client, hash, () => this.client.getTagsForTagged(hash), 'TaggedToTags', ), links => new Set(links.map(l => decodePath([l.tag]))), ), )"
+            },
+            {
+              "kind": "field",
+              "name": "tagPathHash",
+              "privacy": "private",
+              "default": "new MemoMap((tag: string) => fromPromise(() => this.client.tagPathHash(tag)), )"
+            },
+            {
+              "kind": "field",
+              "name": "taggedsForTag",
+              "default": "new MemoMap((tag: string) => pipe( this.tagPathHash.get(tag), hash => liveLinksSignal( this.client, hash, () => this.client.getTaggedsForTag(tag), 'TagToTaggeds', ), links => links.map(l => l.target), ), )"
+            },
+            {
+              "kind": "method",
+              "name": "taggedsForAllTags",
+              "return": {
+                "type": {
+                  "text": "AsyncSignal<Array<HoloHash>>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "tags",
+                  "type": {
+                    "text": "Set<string>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "taggedsForAnyTags",
+              "return": {
+                "type": {
+                  "text": "AsyncSignal<Array<HoloHash>>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "tags",
+                  "type": {
+                    "text": "Set<string>"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TagsStore",
+          "declaration": {
+            "name": "TagsStore",
+            "module": "src/tags-store.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/types.ts",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/elements/tags-context.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "TagsContext",
+          "members": [
+            {
+              "kind": "field",
+              "name": "client",
+              "type": {
+                "text": "AppClient"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "store",
+              "type": {
+                "text": "TagsStore"
+              },
+              "attribute": "store"
+            },
+            {
+              "kind": "field",
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "role"
+            },
+            {
+              "kind": "field",
+              "name": "zome",
+              "type": {
+                "text": "string"
+              },
+              "default": "'tags'",
+              "attribute": "zome"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "store",
+              "type": {
+                "text": "TagsStore"
+              },
+              "fieldName": "store"
+            },
+            {
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "role"
+            },
+            {
+              "name": "zome",
+              "type": {
+                "text": "string"
+              },
+              "default": "'tags'",
+              "fieldName": "zome"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "tags-context",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TagsContext",
+          "declaration": {
+            "name": "TagsContext",
+            "module": "src/elements/tags-context.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tags-context",
+          "declaration": {
+            "name": "TagsContext",
+            "module": "src/elements/tags-context.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/elements/tags-filter.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "TagsFilter",
+          "members": [
+            {
+              "kind": "field",
+              "name": "activeFilter",
+              "default": "new Set<string>()",
+              "attribute": "activeFilter"
+            },
+            {
+              "kind": "field",
+              "name": "multiple",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "multiple"
+            },
+            {
+              "kind": "method",
+              "name": "renderTags",
+              "parameters": [
+                {
+                  "name": "tags",
+                  "type": {
+                    "text": "Set<string>"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "filter-changed",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "activeFilter",
+              "default": "new Set<string>()",
+              "fieldName": "activeFilter"
+            },
+            {
+              "name": "multiple",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "multiple"
+            }
+          ],
+          "mixins": [
+            {
+              "name": "SignalWatcher",
+              "package": "@tnesh-stack/signals"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "tags-filter",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TagsFilter",
+          "declaration": {
+            "name": "TagsFilter",
+            "module": "src/elements/tags-filter.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tags-filter",
+          "declaration": {
+            "name": "TagsFilter",
+            "module": "src/elements/tags-filter.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/elements/tags-for-tagged.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "TagsForTagged",
+          "members": [
+            {
+              "kind": "field",
+              "name": "tagged",
+              "type": {
+                "text": "HoloHash"
+              },
+              "attribute": "tagged"
+            },
+            {
+              "kind": "field",
+              "name": "hideManageMenu",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "hide-manage-menu"
+            },
+            {
+              "kind": "field",
+              "name": "_tagged",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "filter",
+              "type": {
+                "text": "string | undefined"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderTags",
+              "parameters": [
+                {
+                  "name": "tagsForTagged",
+                  "type": {
+                    "text": "Set<string>"
+                  }
+                },
+                {
+                  "name": "allTags",
+                  "type": {
+                    "text": "Set<string>"
+                  }
+                }
+              ]
+            }
+          ],
+          "attributes": [
+            {
+              "name": "tagged",
+              "type": {
+                "text": "HoloHash"
+              },
+              "fieldName": "tagged"
+            },
+            {
+              "name": "hide-manage-menu",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "hideManageMenu"
+            }
+          ],
+          "mixins": [
+            {
+              "name": "SignalWatcher",
+              "package": "@tnesh-stack/signals"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "tags-for-tagged",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TagsForTagged",
+          "declaration": {
+            "name": "TagsForTagged",
+            "module": "src/elements/tags-for-tagged.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tags-for-tagged",
+          "declaration": {
+            "name": "TagsForTagged",
+            "module": "src/elements/tags-for-tagged.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/elements/tags-list.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "TagsList",
+          "members": [
+            {
+              "kind": "method",
+              "name": "renderTags",
+              "parameters": [
+                {
+                  "name": "tags",
+                  "type": {
+                    "text": "Set<string>"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "tag-clicked",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "mixins": [
+            {
+              "name": "SignalWatcher",
+              "package": "@tnesh-stack/signals"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "tags-list",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TagsList",
+          "declaration": {
+            "name": "TagsList",
+            "module": "src/elements/tags-list.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tags-list",
+          "declaration": {
+            "name": "TagsList",
+            "module": "src/elements/tags-list.ts"
+          }
+        }
+      ]
+    }
+  ]
+}
