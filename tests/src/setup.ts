@@ -31,11 +31,12 @@ export async function setup(scenario: Scenario, numPlayers = 2) {
 async function addPlayer(scenario: Scenario) {
 	const player = await scenario.addPlayerWithApp({ path: testHappUrl });
 
-	patchCallZome(player.appWs as AppWebsocket);
-	await player.conductor
-		.adminWs()
-		.authorizeSigningCredentials(player.cells[0].cell_id);
+	// patchCallZome(player.appWs as AppWebsocket);
+	// await player.conductor
+	// 	.adminWs()
+	// 	.authorizeSigningCredentials(player.cells[0].cell_id);
 	const store = new TagsStore(new TagsClient(player.appWs as any, 'tags_test'));
+	await store.client.getAllTags();
 	return {
 		store,
 		player,
