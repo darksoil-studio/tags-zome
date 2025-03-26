@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["validate_create_link_tags_path","validate_delete_link_tags_path"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["add_tag","get_all_tags","get_taggeds_for_tag","get_tags_for_tagged","remove_tag","tag_path_hash"],"struct":["AddTagInput","RemoveTag"]};
