@@ -17,7 +17,7 @@ This will do the following:
 
 That's it! You have now integrated the `tags` coordinator and integrity zomes and their UI into your app!
 
-Now, [choose which elements you need](/elements/tags-context.md) and import them like this:
+Now, [choose which elements you need](/elements/tags-for-tagged.md) and import them like this:
 
 ```js
 import "@darksoil-studio/tags-zome/dist/elements/tags-context.js";
