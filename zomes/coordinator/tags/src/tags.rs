@@ -1,7 +1,7 @@
 use hdk::prelude::*;
 use tags_integrity::*;
 
-use crate::utils::create_link_relaxed;
+use crate::utils::{create_link_relaxed, ensure_relaxed};
 
 fn all_tags_path() -> ExternResult<TypedPath> {
     Path::from(format!("tags")).typed(LinkTypes::TagsPath)
@@ -31,6 +31,7 @@ pub struct AddTagInput {
 #[hdk_extern]
 pub fn add_tag(input: AddTagInput) -> ExternResult<()> {
     let path = tag_path(input.tag.clone())?;
+    ensure_relaxed(&path)?;
     create_link_relaxed(
         input.hash.clone(),
         path.path_entry_hash()?,

@@ -53,7 +53,7 @@ export class TagsStore {
 				() => this.client.getTagsForTagged(hash),
 				'TaggedToTags',
 			),
-			links => new Set(links.map(l => l.tag.toString())),
+			links => new Set(links.map(l => decodePath([l.tag]))),
 		),
 	);
 

@@ -11,7 +11,7 @@ import {
 	Record,
 	SignedActionHashed,
 } from '@holochain/client';
-import { EntryRecord, ZomeClient } from '@tnesh-stack/utils';
+import { EntryRecord, HashType, ZomeClient, retype } from '@tnesh-stack/utils';
 
 import { Tag } from './types.js';
 import { TagsSignal } from './types.js';
@@ -44,7 +44,7 @@ export class TagsClient extends ZomeClient<TagsSignal> {
 	}
 
 	async getTagsForTagged(hash: HoloHash): Promise<Array<Link>> {
-		return this.callZome('get_tags_for_tagged', hash);
+		return this.callZome('get_tags_for_tagged', retype(hash, HashType.ENTRY));
 	}
 
 	async getTaggedsForTag(tag: string): Promise<Array<Link>> {

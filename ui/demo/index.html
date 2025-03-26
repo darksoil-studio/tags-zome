@@ -44,7 +44,9 @@
 			import { LitElement, css, html } from 'lit';
 
 			import '../src/elements/tags-context.ts';
-			import '../src/elements/tags-for.ts';
+			import '../src/elements/tags-filter.ts';
+			import '../src/elements/tags-for-tagged.ts';
+			import '../src/elements/tags-list.ts';
 
 			export class DemoApp extends SignalWatcher(LitElement) {
 				constructor() {
@@ -61,7 +63,12 @@
 				}
 
 				renderContent() {
-					return html` <tags-for .hash=${this._client.myPubKey}> </tags-for> `;
+					return html`
+						<tags-filter> </tags-filter>
+						<tags-list> </tags-list>
+						<tags-for-tagged .tagged=${this._client.myPubKey}>
+						</tags-for-tagged>
+					`;
 				}
 
 				render() {
