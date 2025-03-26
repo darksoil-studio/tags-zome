@@ -1,24 +1,24 @@
-# `<tags>`
+# `<tags-filter>`
 
 ## Usage
 
 0. If you haven't already, [go through the setup for the module](/setup).
 
-1. Import the `<tags>` element somewhere in the javascript side of your web-app like this:
+1. Import the `<tags-filter>` element somewhere in the javascript side of your web-app like this:
 
 ```js
-import '@darksoil-studio/tags/dist/elements/tags.js'
+import '@darksoil-studio/tags/dist/elements/tags-filter.js'
 ```
 
 2. Use it in the html side of your web-app like this:
 
 ```html
-<tags>
-</tags>
+<tags-filter>
+</tags-filter>
 ```
 
 > [!WARNING]
-> Like all the elements in this module, `<tags>` needs to be placed inside an initialized `<tags-context>`.
+> Like all the elements in this module, `<tags-filter>` needs to be placed inside an initialized `<tags-context>`.
 
 ## Demo
 
@@ -46,7 +46,7 @@ onMounted(async () => {
   await import('@api-viewer/demo/lib/api-demo.js');
   await import('@darksoil-studio/profiles-zome/dist/elements/profiles-context.js');
   if (!customElements.get('tags-context')) await import('../../ui/src/elements/tags-context.ts');
-  if (!customElements.get('tags')) await import('../../ui/src/elements/tags.ts');
+  if (!customElements.get('tags-filter')) await import('../../ui/src/elements/tags-filter.ts');
 
   const profiles = await demoProfiles();
 
@@ -70,7 +70,7 @@ onMounted(async () => {
       <tags-context .store=${store}>
         <api-demo src="custom-elements.json" only="tags" exclude-knobs="store">
           <template data-element="tags" data-target="host">
-            <tags ></tags>
+            <tags-filter></tags-filter>
           </template>
         </api-demo>
       </tags-context>
@@ -83,7 +83,7 @@ onMounted(async () => {
 
 ## API Reference
 
-`<tags>` is a [custom element](https://web.dev/articles/custom-elements-v1), which means that it can be used in any web app or website. Here is the reference for its API:
+`<tags-filter>` is a [custom element](https://web.dev/articles/custom-elements-v1), which means that it can be used in any web app or website. Here is the reference for its API:
 
 <api-docs src="custom-elements.json" only="tags">
 </api-docs>

@@ -1,46 +1,46 @@
-# `<taggeds-for-tag>`
+# `<tags-for-tagged>`
 
 ## Usage
 
 0. If you haven't already, [go through the setup for the module](/setup).
 
-1. Import the `<taggeds-for-tag>` element somewhere in the javascript side of your web-app like this:
+1. Import the `<tags-for-tagged>` element somewhere in the javascript side of your web-app like this:
 
 ```js
-import '@darksoil-studio/tags/dist/elements/taggeds-for-tag.js'
+import '@darksoil-studio/tags/dist/elements/tags-for-tagged.js'
 ```
 
 2. Use it in the html side of your web-app like this:
 
 ::: code-group
 ```html [Lit]
-<taggeds-for-tag .tagHash=${ tagHash }>
-</taggeds-for-tag>
+<tags-for-tagged .tagged=${ tagged }>
+</tags-for-tagged>
 ```
 
 ```html [React]
-<taggeds-for-tag tagHash={ tagHash }>
-</taggeds-for-tag>
+<tags-for-tagged tagged={ tagged }>
+</tags-for-tagged>
 ```
 
 ```html [Angular]
-<taggeds-for-tag [tagHash]="tagHash">
-</taggeds-for-tag>
+<tags-for-tagged [tagged]="tagged">
+</tags-for-tagged>
 ```
 
 ```html [Vue]
-<taggeds-for-tag :tagHash="tagHash">
-</taggeds-for-tag>
+<tags-for-tagged :tagged="tagged">
+</tags-for-tagged>
 ```
 
 ```html [Svelte]
-<taggeds-for-tag tag-hash={encodeHashToBase64(tagHash)}>
-</taggeds-for-tag>
+<tags-for-tagged tagged={encodeHashToBase64(tagged)}>
+</tags-for-tagged>
 ```
 :::
 
 > [!WARNING]
-> Like all the elements in this module, `<taggeds-for-tag>` needs to be placed inside an initialized `<tags-context>`.
+> Like all the elements in this module, `<tags-for-tagged>` needs to be placed inside an initialized `<tags-context>`.
 
 ## Demo
 
@@ -68,7 +68,7 @@ onMounted(async () => {
   await import('@api-viewer/demo/lib/api-demo.js');
   await import('@darksoil-studio/profiles-zome/dist/elements/profiles-context.js');
   if (!customElements.get('tags-context')) await import('../../ui/src/elements/tags-context.ts');
-  if (!customElements.get('taggeds-for-tag')) await import('../../ui/src/elements/taggeds-for-tag.ts');
+  if (!customElements.get('tags-for-tagged')) await import('../../ui/src/elements/tags-for-tagged.ts');
 
   const profiles = await demoProfiles();
   const myPubKey = Array.from(profiles.keys())[0];
@@ -79,16 +79,14 @@ onMounted(async () => {
   const mock = new TagsZomeMock();
   const client = new TagsClient(mock, "tags_test");
 
-
-
   const store = new TagsStore(client);
 
   render(html`
     <profiles-context .store=${profilesStore}>
       <tags-context .store=${store}>
-        <api-demo src="custom-elements.json" only="taggeds-for-tag" exclude-knobs="store">
-          <template data-element="taggeds-for-tag" data-target="host">
-            <taggeds-for-tag tag-hash="${unsafeStatic(encodeHashToBase64(fromHash))}"></taggeds-for-tag>
+        <api-demo src="custom-elements.json" only="tags-for-tagged" exclude-knobs="store">
+          <template data-element="tags-for-tagged" data-target="host">
+            <tags-for-tagged tagged="${unsafeStatic(encodeHashToBase64(myPubKey))}"></tags-for-tagged>
           </template>
         </api-demo>
       </tags-context>
@@ -101,7 +99,7 @@ onMounted(async () => {
 
 ## API Reference
 
-`<taggeds-for-tag>` is a [custom element](https://web.dev/articles/custom-elements-v1), which means that it can be used in any web app or website. Here is the reference for its API:
+`<tags-for-tagged>` is a [custom element](https://web.dev/articles/custom-elements-v1), which means that it can be used in any web app or website. Here is the reference for its API:
 
-<api-docs src="custom-elements.json" only="taggeds-for-tag">
+<api-docs src="custom-elements.json" only="tags-for-tagged">
 </api-docs>
