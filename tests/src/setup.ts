@@ -1,21 +1,5 @@
-import {
-	ActionHash,
-	AgentPubKey,
-	AppBundleSource,
-	AppCallZomeRequest,
-	AppWebsocket,
-	EntryHash,
-	NewEntryAction,
-	Record,
-	encodeHashToBase64,
-	fakeActionHash,
-	fakeAgentPubKey,
-	fakeDnaHash,
-	fakeEntryHash,
-} from '@holochain/client';
-import { Player, Scenario, dhtSync, pause } from '@holochain/tryorama';
-import { encode } from '@msgpack/msgpack';
-import { EntryRecord } from '@tnesh-stack/utils';
+import { AppWebsocket } from '@holochain/client';
+import { Scenario, dhtSync, pause } from '@holochain/tryorama';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -34,10 +18,10 @@ export async function setup(scenario: Scenario, numPlayers = 2) {
 	// conductor of the scenario.
 	await scenario.shareAllAgents();
 
-	// await dhtSync(
-	// 	players.map(p => p.player),
-	// 	players[0].player.cells[0].cell_id[0],
-	// );
+	await dhtSync(
+		players.map(p => p.player),
+		players[0].player.cells[0].cell_id[0],
+	);
 
 	console.log('Setup completed!');
 
