@@ -3,7 +3,7 @@
 	"private": true,
 	"scripts": {
 		"start": "pnpm build:happ && UI_PORT=8888 concurrently -k \"pnpm -F @darksoil-studio/tags-zome start\" \"AGENTS=${AGENTS:-2} pnpm launch\" \"hc playground\"",
-		"launch": "concurrently-repeat \"RUST_LOG=warn hc pilot $AGENTS workdir/tags_test.happ --ui-port $UI_PORT\" $AGENTS",
+		"launch": "concurrently-repeat \"RUST_LOG=warn hc pilot workdir/tags_test.happ --ui-port $UI_PORT\" $AGENTS",
 		"test": "pnpm build:happ && pnpm -F tests test",
 		"build:happ": "nix build -L .#tags_test_happ.meta.debug -o workdir/tags_test.happ"
 	},
