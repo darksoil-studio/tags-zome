@@ -11,7 +11,7 @@ import {
 	Record,
 	SignedActionHashed,
 } from '@holochain/client';
-import { EntryRecord, HashType, ZomeClient, retype } from '@tnesh-stack/utils';
+import { EntryRecord, HashType, ZomeClient, retype } from '@darksoil-studio/holochain-utils';
 
 import { Tag } from './types.js';
 import { TagsSignal } from './types.js';

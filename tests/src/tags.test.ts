@@ -1,6 +1,6 @@
-import { dhtSync, runScenario } from '@holochain/tryorama';
-import { toPromise } from '@tnesh-stack/signals';
-import { HashType, retype } from '@tnesh-stack/utils';
+import { toPromise } from '@darksoil-studio/holochain-signals';
+import { HashType, retype } from '@darksoil-studio/holochain-utils';
+import { dhtSync, pause, runScenario } from '@holochain/tryorama';
 import { assert, test } from 'vitest';
 
 import { setup } from './setup.js';

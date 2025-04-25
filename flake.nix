@@ -2,16 +2,18 @@
   description = "Template for Holochain app development";
 
   inputs = {
-    holonix.url = "github:holochain/holonix/main-0.4";
+    holonix.url = "github:holochain/holonix/main-0.5";
 
     nixpkgs.follows = "holonix/nixpkgs";
     flake-parts.follows = "holonix/flake-parts";
 
-    tnesh-stack.url = "github:darksoil-studio/tnesh-stack/main-0.4";
-    playground.url = "github:darksoil-studio/holochain-playground/main-0.4";
-    p2p-shipyard.url = "github:darksoil-studio/p2p-shipyard/main-0.4";
+    scaffolding.url = "github:darksoil-studio/scaffolding/main-0.5";
+    holochain-nix-builders.url =
+      "github:darksoil-studio/holochain-nix-builders/main-0.5";
+    playground.url = "github:darksoil-studio/holochain-playground/main-0.5";
+    p2p-shipyard.url = "github:darksoil-studio/p2p-shipyard/main-0.5";
 
-    profiles-zome.url = "github:darksoil-studio/profiles-zome/main-0.4";
+    profiles-zome.url = "github:darksoil-studio/profiles-zome/main-0.5";
   };
 
   nixConfig = {
@@ -39,22 +41,22 @@
       perSystem = { inputs', config, pkgs, system, ... }: {
         devShells.default = pkgs.mkShell {
           inputsFrom = [
-            inputs'.tnesh-stack.devShells.synchronized-pnpm
+            inputs'.scaffolding.devShells.synchronized-pnpm
             inputs'.holonix.devShells.default
           ];
 
           packages = [
-            inputs'.tnesh-stack.packages.holochain
-            inputs'.tnesh-stack.packages.hc-scaffold-zome
+            inputs'.holochain-nix-builders.packages.holochain
+            inputs'.scaffolding.packages.hc-scaffold-zome
             inputs'.playground.packages.hc-playground
             inputs'.p2p-shipyard.packages.hc-pilot
           ];
         };
-        devShells.npm-ci = inputs'.tnesh-stack.devShells.synchronized-pnpm;
+        devShells.npm-ci = inputs'.scaffolding.devShells.synchronized-pnpm;
 
         packages.scaffold = pkgs.symlinkJoin {
           name = "scaffold-remote-zome";
-          paths = [ inputs'.tnesh-stack.packages.scaffold-remote-zome ];
+          paths = [ inputs'.scaffolding.packages.scaffold-remote-zome ];
           buildInputs = [ pkgs.makeWrapper ];
           postBuild = ''
             wrapProgram $out/bin/scaffold-remote-zome \
@@ -63,7 +65,7 @@
                 --coordinator-zome-name tags \
                 --remote-zome-git-url github:darksoil-studio/tags-zome \
                 --remote-npm-package-name @darksoil-studio/tags-zome \
-                --remote-zome-git-branch main-0.4 \
+                --remote-zome-git-branch main-0.5 \
                 --context-element tags-context \
                 --context-element-import @darksoil-studio/tags-zome/dist/elements/tags-context.js" 
           '';

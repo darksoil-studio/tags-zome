@@ -21,7 +21,7 @@ import {
 	mapCompleted,
 	pipe,
 	uniquify,
-} from '@tnesh-stack/signals';
+} from '@darksoil-studio/holochain-signals';
 import {
 	EntryRecord,
 	HashType,
@@ -30,7 +30,7 @@ import {
 	decodePath,
 	retype,
 	slice,
-} from '@tnesh-stack/utils';
+} from '@darksoil-studio/holochain-utils';
 
 import { TagsClient } from './tags-client.js';
 import { Tag } from './types.js';

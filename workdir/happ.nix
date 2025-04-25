@@ -1,14 +1,9 @@
 { inputs, ... }:
 
 {
-  perSystem =
-    { inputs'
-    , lib
-    , self'
-    , system
-    , ...
-    }: {
-      packages.tags_test_happ = inputs.tnesh-stack.outputs.builders.${system}.happ {
+  perSystem = { inputs', lib, self', system, ... }: {
+    packages.tags_test_happ =
+      inputs.holochain-nix-builders.outputs.builders.${system}.happ {
         happManifest = ./happ.yaml;
 
         dnas = {
@@ -18,5 +13,5 @@
           tags_test = self'.packages.tags_test_dna;
         };
       };
-    };
+  };
 }
