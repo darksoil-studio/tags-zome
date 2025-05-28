@@ -21,6 +21,8 @@ export async function setup(scenario: Scenario, numPlayers = 2) {
 	await dhtSync(
 		players.map(p => p.player),
 		players[0].player.cells[0].cell_id[0],
+		500,
+		240_000,
 	);
 
 	console.log('Setup completed!');
@@ -30,8 +32,10 @@ export async function setup(scenario: Scenario, numPlayers = 2) {
 
 async function addPlayer(scenario: Scenario) {
 	const player = await scenario.addPlayerWithApp({
-		type: 'path',
-		value: testHappUrl,
+		appBundleSource: {
+			type: 'path',
+			value: testHappUrl,
+		},
 	});
 
 	// patchCallZome(player.appWs as AppWebsocket);

@@ -32,7 +32,7 @@ test('link a Tag to a Tagged', async () => {
 			bob.store.tagsForTagged.get(targetAddress),
 		);
 		assert.equal(inverseLinksOutput.size, 1);
-		assert.deepEqual(inverseLinksOutput[0], tag);
+		assert.deepEqual(Array.from(inverseLinksOutput.values())[0], tag);
 
 		await alice.store.client.removeTag(tag, targetAddress);
 
@@ -42,10 +42,6 @@ test('link a Tag to a Tagged', async () => {
 		// Bob gets the links again
 		linksOutput = await toPromise(bob.store.taggedsForTag.get(tag));
 		assert.equal(linksOutput.length, 0);
-
-		// Bob gets the deleted links
-		let deletedLinksOutput = await toPromise(bob.store.taggedsForTag.get(tag));
-		assert.equal(deletedLinksOutput.length, 1);
 
 		// Bob gets the links in the inverse direction
 		inverseLinksOutput = await toPromise(
